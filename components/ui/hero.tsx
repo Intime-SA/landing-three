@@ -7,7 +7,7 @@ export function Hero() {
       {/* Background Elements */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-green-500/10 via-transparent to-transparent" />
-        <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid.svg')] opacity-20" />
+        {/* <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid.svg')] opacity-20" /> */}
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
