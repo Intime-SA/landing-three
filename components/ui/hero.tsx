@@ -36,7 +36,7 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <a
-              href="https://mooneymaker.co/?ref=57783"
+              href="https://mooneymaker.co/?ref=63902"
               className="inline-flex items-center justify-center px-8 py-4 bg-green-600 text-white font-bebas text-2xl rounded-full hover:bg-green-700 transition-colors"
             >
               Empezar Ahora
