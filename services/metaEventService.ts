@@ -14,6 +14,9 @@ interface MetaEventData {
 }
 
 export async function sendMetaEvent(email: string, value: string = "10"): Promise<boolean> {
+  console.log('🚀 Iniciando envío de evento a Meta...');
+  console.log('📧 Email:', email);
+  console.log('💰 Valor:', value);
   
   try {
     const eventData: MetaEventData = {
@@ -29,9 +32,16 @@ export async function sendMetaEvent(email: string, value: string = "10"): Promis
       }
     };
 
+    console.log('📊 Event data preparado:', eventData);
+
     const accessToken = process.env.NEXT_PUBLIC_META_ACCESS_TOKEN;
     const pixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
     const endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT;
+    
+    console.log('🔧 Variables de entorno:');
+    console.log('  - Endpoint:', endpoint ? '✅ Configurado' : '❌ No configurado');
+    console.log('  - Access Token:', accessToken ? '✅ Configurado' : '❌ No configurado');
+    console.log('  - Pixel ID:', pixelId ? '✅ Configurado' : '❌ No configurado');
     
     if (!endpoint) {
       throw new Error('Endpoint no configurado');
@@ -51,6 +61,9 @@ export async function sendMetaEvent(email: string, value: string = "10"): Promis
       pixelId
     };
 
+    console.log('📤 Enviando payload a:', endpoint);
+    console.log('📦 Payload:', JSON.stringify(payload, null, 2));
+
     const response = await axios.post(endpoint, payload, {
       headers: {
         'Content-Type': 'application/json',
@@ -58,10 +71,15 @@ export async function sendMetaEvent(email: string, value: string = "10"): Promis
       timeout: 10000
     });
 
-    console.log('Evento enviado exitosamente:', response.data);
+    console.log('✅ Evento enviado exitosamente:', response.data);
     return true;
-  } catch (error) {
-    console.error('Error enviando evento a Meta:', error);
+  } catch (error: any) {
+    console.error('❌ Error enviando evento a Meta:');
+    console.error('  - Tipo de error:', error.name);
+    console.error('  - Mensaje:', error.message);
+    console.error('  - Response status:', error.response?.status);
+    console.error('  - Response data:', error.response?.data);
+    console.error('  - Stack:', error.stack);
     return false;
   }
 } 

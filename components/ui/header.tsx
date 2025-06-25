@@ -11,6 +11,7 @@ export function Header() {
       
       // Enviar evento a Meta
       const success = await sendMetaEvent(tempEmail, "10");
+      console.log(success);
       
       if (success) {
         console.log('Evento de registro enviado exitosamente a Meta');
