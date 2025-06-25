@@ -1,7 +1,38 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { sendMetaEvent } from "../../services/metaEventService";
 
 export function Hero() {
+  // Función para manejar el registro y enviar evento a Meta
+  const handleRegistration = async () => {
+    try {
+      // Generar un email temporal para el evento (en producción esto vendría del formulario de registro)
+      const tempEmail = `user_${Date.now()}@example.com`;
+      
+      // Enviar evento a Meta
+      const success = await sendMetaEvent(tempEmail, "10");
+      
+      if (success) {
+        console.log('Evento de registro enviado exitosamente a Meta');
+      } else {
+        console.warn('No se pudo enviar el evento a Meta');
+      }
+      
+      // Redirigir al usuario a la URL de registro
+      const registerUrl = process.env.NEXT_PUBLIC_REGISTER_URL;
+      if (registerUrl) {
+        window.location.href = registerUrl;
+      }
+    } catch (error) {
+      console.error('Error en el proceso de registro:', error);
+      // Aún redirigir al usuario aunque falle el evento
+      const registerUrl = process.env.NEXT_PUBLIC_REGISTER_URL;
+      if (registerUrl) {
+        window.location.href = registerUrl;
+      }
+    }
+  };
+
   return (
     <section className="relative min-h-screen flex items-start mt-10 justify-center bg-gradient-to-b from-black to-gray-900 overflow-hidden">
       {/* Background Elements */}
@@ -35,13 +66,13 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <a
-              href={process.env.NEXT_PUBLIC_REGISTER_URL || ""}
+            <button
+              onClick={handleRegistration}
               className="inline-flex items-center justify-center px-8 py-4 bg-green-600 text-white font-bebas text-2xl rounded-full hover:bg-green-700 transition-colors"
             >
               Empezar Ahora
               <ArrowRight className="ml-2 w-6 h-6" />
-            </a>
+            </button>
           </motion.div>
         </div>
       </div>
