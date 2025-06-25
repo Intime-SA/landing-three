@@ -25,7 +25,7 @@ export function Header() {
           </nav>
 
           <Link 
-            href="https://mooneymaker.co/?ref=63902"
+            href={process.env.NEXT_PUBLIC_REGISTER_URL || ""}
             className="bg-green-600 text-white px-6 py-2 rounded-full font-bebas text-xl hover:bg-green-700 transition-colors ml-8"
           >
             Empezar
