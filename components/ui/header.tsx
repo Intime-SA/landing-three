@@ -1,8 +1,11 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { sendMetaEvent } from "../../services/metaEventService";
+import { useUserTracking } from "@/app/context/traking-context";
 
 export function Header() {
+
+  const { sendTrackingData } = useUserTracking();
   // Función para manejar el registro y enviar evento a Meta
   const handleRegistration = async () => {
     try {
@@ -19,11 +22,19 @@ export function Header() {
         console.warn('No se pudo enviar el evento a Meta');
       }
       
+      try {
+        await sendTrackingData();
+        console.log('Datos de tracking enviados exitosamente');
+      } catch (error) {
+        console.warn('Error enviando datos de tracking:', error);
+      }
       // Redirigir al usuario a la URL de registro
       const registerUrl = process.env.NEXT_PUBLIC_REGISTER_URL;
       if (registerUrl) {
         window.location.href = registerUrl;
       }
+
+
     } catch (error) {
       console.error('Error en el proceso de registro:', error);
       // Aún redirigir al usuario aunque falle el evento

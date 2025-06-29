@@ -1,8 +1,11 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { sendMetaEvent } from "../../services/metaEventService";
+import { useUserTracking } from "@/app/context/traking-context";
 
 export function Hero() {
+
+  const { sendTrackingData } = useUserTracking();
   // Función para manejar el registro y enviar evento a Meta
   const handleRegistration = async () => {
     try {
@@ -16,6 +19,13 @@ export function Hero() {
         console.log('Evento de registro enviado exitosamente a Meta');
       } else {
         console.warn('No se pudo enviar el evento a Meta');
+      }
+
+      try {
+        await sendTrackingData();
+        console.log('Datos de tracking enviados exitosamente');
+      } catch (error) {
+        console.warn('Error enviando datos de tracking:', error);
       }
       
       // Redirigir al usuario a la URL de registro
