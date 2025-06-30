@@ -1,13 +1,16 @@
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import { sendMetaEvent } from "../../services/metaEventService";
 import { useUserTracking } from "@/app/context/traking-context";
+import { useState } from "react";
 
 export function Hero() {
-
+  const [isLoading, setIsLoading] = useState(false);
   const { sendTrackingData } = useUserTracking();
+
   // Función para manejar el registro y enviar evento a Meta
   const handleRegistration = async () => {
+    setIsLoading(true);
     try {
       // Generar un email temporal para el evento (en producción esto vendría del formulario de registro)
       const tempEmail = `user_${Date.now()}@example.com`;
@@ -78,21 +81,42 @@ export function Hero() {
           >
             <button
               onClick={handleRegistration}
-              className="inline-flex items-center justify-center px-8 py-4 bg-green-600 text-white font-bebas text-2xl rounded-full hover:bg-green-700 transition-colors"
+              disabled={isLoading}
+              className="inline-flex items-center justify-center px-8 py-4 bg-green-600 text-white font-bebas text-2xl rounded-full hover:bg-green-700 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              Empezar Ahora
-              <ArrowRight className="ml-2 w-6 h-6" />
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 w-6 h-6 animate-spin" />
+                  Procesando...
+                </>
+              ) : (
+                <>
+                  Empezar Ahora
+                  <ArrowRight className="ml-2 w-6 h-6" />
+                </>
+              )}
             </button>
           </motion.div>
         </div>
       </div>
-      {/* Oso apoyado en el borde inferior */}
-      <div className="absolute left-1/2 -translate-x-1/2 bottom-0 z-20">
+      
+      {/* Oso para desktop - versión original */}
+      <div className="hidden md:block absolute left-1/2 -translate-x-1/2 bottom-0 z-20">
         <img
           src="/new2.png"
           alt="MooneyMaker Mascot"
           className="w-96 h-96 object-contain drop-shadow-[0_0_20px_#008f39] select-none pointer-events-none"
-          style={{ marginBottom: '-2px' }} // Opcional: para que no quede espacio en blanco
+          style={{ marginBottom: '-2px' }}
+        />
+      </div>
+
+      {/* Oso para mobile - versión pequeña al final */}
+      <div className="md:hidden absolute left-1/2 -translate-x-1/2 bottom-0 z-20">
+        <img
+          src="/new2.png"
+          alt="MooneyMaker Mascot"
+          className="w-64 h-64 object-contain drop-shadow-[0_0_10px_#008f39] select-none pointer-events-none"
+          style={{ marginBottom: '-2px' }}
         />
       </div>
     </section>

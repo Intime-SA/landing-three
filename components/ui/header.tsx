@@ -1,13 +1,17 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { ArrowRight, Loader2 } from "lucide-react";
 import { sendMetaEvent } from "../../services/metaEventService";
 import { useUserTracking } from "@/app/context/traking-context";
+import { useState } from "react";
 
 export function Header() {
-
+  const [isLoading, setIsLoading] = useState(false);
   const { sendTrackingData } = useUserTracking();
+
   // Función para manejar el registro y enviar evento a Meta
   const handleRegistration = async () => {
+    setIsLoading(true);
     try {
       // Generar un email temporal para el evento (en producción esto vendría del formulario de registro)
       const tempEmail = `user_${Date.now()}@example.com`;
@@ -69,9 +73,17 @@ export function Header() {
 
           <button 
             onClick={handleRegistration}
-            className="bg-green-600 text-white px-6 py-2 rounded-full font-bebas text-xl hover:bg-green-700 transition-colors ml-8"
+            disabled={isLoading}
+            className="bg-green-600 text-white px-6 py-2 rounded-full font-bebas text-xl hover:bg-green-700 transition-colors ml-8 disabled:opacity-70 disabled:cursor-not-allowed"
           >
-            Empezar
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 w-5 h-5 animate-spin" />
+              
+              </>
+            ) : (
+              "Empezar"
+            )}
           </button>
         </div>
       </div>
