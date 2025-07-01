@@ -82,7 +82,7 @@ export function Hero() {
             <button
               onClick={handleRegistration}
               disabled={isLoading}
-              className="inline-flex items-center justify-center px-8 py-4 bg-green-600 text-white font-bebas text-2xl rounded-full hover:bg-green-700 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+              className="inline-flex items-center justify-center px-8 py-4 bg-green-600 text-white font-bebas text-2xl rounded-full hover:bg-green-700 transition-colors disabled:opacity-70 disabled:cursor-not-allowed z-50"
             >
               {isLoading ? (
                 <>
